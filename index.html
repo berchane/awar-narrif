@@ -450,7 +450,42 @@ async function request(path,opts={}){
  let data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||`Erreur serveur (${r.status})`);return data;
 }
 function show(v){document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='merci'&&b.dataset.v==='part')));window.scrollTo(0,0)}
-async function getRecommended(exclude=[]){return request('/packets/recommend'+(exclude.length?'?exclude='+encodeURIComponent(exclude.join(',')):''))}
+let packetsCache = null;
+
+async function getRecommended(exclude = []) {
+
+  // Charger les phrases depuis GitHub Pages
+  if (!packetsCache) {
+    const response = await fetch('./packets.json');
+
+    if (!response.ok) {
+      throw new Error('Impossible de charger packets.json');
+    }
+
+    packetsCache = await response.json();
+  }
+
+  // Exclure les paquets déjà proposés
+  let disponibles = packetsCache.filter(
+    p => !exclude.includes(p.id)
+  );
+
+  // Si tous les paquets sont exclus, recommencer
+  if (disponibles.length === 0) {
+    disponibles = packetsCache;
+  }
+
+  if (disponibles.length === 0) {
+    throw new Error('Aucun paquet disponible');
+  }
+
+  // Pour les tests : proposer les paquets dans l'ordre
+  const choisi = disponibles[0];
+
+  return {
+    packet: choisi
+  };
+}
 async function selectPacket(exclude=[]){
  const data=await getRecommended(exclude);packet=data.packet.id;sentences=data.packet.sentences;idx=0;clips=[];cur=null;contributionId=crypto.randomUUID();excluded=exclude;render();return data;
 }
