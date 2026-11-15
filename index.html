@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Awar n’Arrif – Corpus vocal Tarifit de Nador</title>
+<style>
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:200 900;font-display:swap;src:url(fonts/fraunces-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:200 900;font-display:swap;src:url(fonts/fraunces-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Nunito Sans";font-style:normal;font-weight:200 900;font-display:swap;src:url(fonts/nunito-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Nunito Sans";font-style:normal;font-weight:200 900;font-display:swap;src:url(fonts/nunito-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{--serif:"Fraunces","Georgia","Times New Roman",serif;--sans:"Nunito Sans","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;--teal:#0e4a57;--teal2:#14707f;--cream:#fdf1e3;--cream2:#fbe3c8;--orange:#d5440f;--amber:#f2a23a;--ink:#123d48;--mut:#4f6f78;--line:#e6cfb3}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;line-height:1.45}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:700;letter-spacing:-.01em}
+svg{width:1.15em;height:1.15em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+/* header */
+header{background:var(--teal);color:#fff}
+.bar{max-width:1280px;margin:0 auto;padding:0 28px;min-height:104px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;background:none;border:0;padding:4px 20px 4px 0}
+.brand img{height:92px;width:auto;display:block}
+nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+nav button{background:none;border:0;color:#fff;padding:9px 14px;border-radius:9px;display:flex;gap:8px;align-items:center;font-weight:600;font-size:.95rem}
+nav button:hover{background:rgba(255,255,255,.12)}
+nav button.on{background:var(--cream2);color:var(--orange)}
+/* footer */
+footer{background:var(--teal);color:#fff;margin-top:auto}
+.fbar{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:.92rem}
+.fbar>div{display:flex;gap:14px;align-items:center}
+.fbar a{color:#fff;text-decoration:none}.fbar a:hover{text-decoration:underline}
+.fbar .sep{border-left:1px solid rgba(255,255,255,.35);padding-left:22px}
+.fbar svg{width:30px;height:30px}
+.fac{height:84px;width:auto;display:block}
+main{flex:1;position:relative}
+.view{display:none}.view.on{display:block}
+/* motifs berbères */
+.pat{position:absolute;width:190px;height:190px;opacity:.5;pointer-events:none;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cpath d='M23 3L43 23 23 43 3 23z' fill='none' stroke='%23f2a23a' stroke-width='3'/%3E%3Cpath d='M23 14L32 23 23 32 14 23z' fill='%23f2a23a' opacity='.6'/%3E%3C/svg%3E")}
+.pat.tl{left:0;top:0;-webkit-mask:linear-gradient(135deg,#000,transparent 70%);mask:linear-gradient(135deg,#000,transparent 70%)}
+.pat.tr{right:0;top:0;-webkit-mask:linear-gradient(225deg,#000,transparent 70%);mask:linear-gradient(225deg,#000,transparent 70%)}
+.pat.bl{left:0;bottom:0;-webkit-mask:linear-gradient(45deg,#000,transparent 70%);mask:linear-gradient(45deg,#000,transparent 70%)}
+.pat.br{right:0;bottom:0;-webkit-mask:linear-gradient(315deg,#000,transparent 70%);mask:linear-gradient(315deg,#000,transparent 70%)}
+/* boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;font-weight:700;padding:11px 20px;border:2px solid var(--teal);background:#fff;color:var(--teal)}
+.btn:hover{background:#fff8ef}
+.btn.primary{background:var(--orange);border-color:var(--orange);color:#fff;font-size:1.5rem;padding:10px 56px;font-family:var(--serif)}
+.btn.primary:hover{background:#b93a0c}
+.btn.solid{background:var(--teal);color:#fff}.btn.solid:hover{background:var(--teal2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+/* ACCUEIL */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.25fr) minmax(0,1.35fr);align-items:center;overflow:hidden}
+.hero .land{align-self:stretch;min-height:360px}
+.hero .land img{width:100%;height:100%;min-height:380px;object-fit:cover;object-position:18% 50%;display:block;-webkit-mask:linear-gradient(90deg,#000 62%,transparent);mask:linear-gradient(90deg,#000 62%,transparent)}
+.center{text-align:center;padding:26px 8px 20px;position:relative;z-index:1}
+.logo{display:flex;align-items:center;justify-content:center;gap:16px}
+.logo .wm{font-family:var(--serif);font-weight:700;letter-spacing:-.015em;line-height:1;font-size:clamp(2.6rem,4vw,3.7rem);color:var(--teal)}
+.logo-m{display:none}
+.wave{display:flex;align-items:center;gap:4px;height:70px}
+.wave i{display:block;width:5px;border-radius:3px;background:var(--orange)}
+.badge{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:10px;padding:6px 22px;font-weight:700;font-size:1rem;text-transform:uppercase;margin:4px 0 12px}
+.center h2{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.12;color:var(--teal);max-width:15em;margin:0 auto 12px}
+.center p{max-width:38em;margin:0 auto 14px;font-size:1.03rem}
+.chips{display:flex;gap:18px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:10px;padding:7px 22px;border:1px solid var(--line);border-radius:12px;background:#fff8f0;font-weight:700;font-size:1.05rem}
+.chip svg{color:var(--orange);width:1.5em;height:1.5em}
+.right{align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:space-between;min-height:400px;padding-top:22px}
+.right img{width:100%;max-width:700px;height:auto;display:block;align-self:flex-end;margin-right:-1%;margin-top:14px}
+/* Pour mettre le logo à gauche et le panorama à droite : <div class="hero swap"> */
+.hero.swap .right{order:-1}.hero.swap .land{order:3}.hero.swap .land img{-webkit-mask:linear-gradient(270deg,#000 62%,transparent);mask:linear-gradient(270deg,#000 62%,transparent)}
+.mic{position:absolute;top:28px;left:50%;transform:translateX(-35%);width:230px;height:230px;border-radius:50%;background:#fbdcb2;display:grid;place-items:center}
+.mic svg{width:120px;height:120px;stroke:none}
+.rug{position:absolute;right:0;bottom:0;width:78%;height:140px;transform:skewY(-10deg);transform-origin:right bottom;border-radius:10px 0 0 0;
+ background:linear-gradient(#0000,#0000),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Crect width='44' height='44' fill='%23f7ead6'/%3E%3Cpath d='M22 2L42 22 22 42 2 22z' fill='%23c83a14'/%3E%3Cpath d='M22 12L32 22 22 32 12 22z' fill='%230e4a57'/%3E%3Cpath d='M22 18L26 22 22 26 18 22z' fill='%23f2a23a'/%3E%3C/svg%3E")}
+.how{max-width:1280px;margin:0 auto;padding:14px 28px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;position:relative}
+.how h3{font-size:1.6rem;color:var(--teal);padding-right:24px;white-space:nowrap;border-right:1px solid var(--line)}
+.step{display:flex;align-items:center;gap:14px}
+.step .ic{width:56px;height:56px;border-radius:50%;background:#fbdcb2;color:var(--orange);display:grid;place-items:center}
+.step .ic svg{width:28px;height:28px}
+.step b{font-family:var(--serif);font-size:1.3rem;color:var(--teal);display:block;line-height:1.1}
+.step span{font-size:.92rem;color:var(--mut)}
+.chev{color:var(--orange);width:1.6em;height:1.6em}
+/* PARTICIPER */
+.rec-wrap{position:relative;max-width:1050px;margin:0 auto;padding:22px 28px 36px;overflow:visible}
+.rec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.rec-head h2{font-size:1.45rem;display:flex;gap:12px;align-items:center;color:var(--teal)}
+.rec-head h2 svg{color:var(--orange);width:1.3em;height:1.3em}
+.pk{background:var(--cream2);color:var(--orange);font-weight:800;border-radius:10px;padding:6px 22px}
+.prog{display:flex;align-items:center;gap:20px;background:#fff8f0;border:1px solid var(--line);border-radius:12px;padding:12px 20px;font-weight:700}
+.prog .bar2{flex:1;height:14px;border-radius:8px;background:#e7dccb;overflow:hidden}
+.prog .bar2 div{height:100%;background:var(--teal2);border-radius:8px;transition:width .3s}
+.rec-main{display:grid;grid-template-columns:1fr 240px;gap:22px;margin-top:20px;align-items:start}
+.phrase{display:flex;align-items:center;justify-content:center;gap:18px;font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.3rem);font-weight:700;color:var(--teal);background:#fff8f0;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:16px;text-align:center}
+.mini{display:flex;gap:3px;align-items:center;height:28px}.mini i{display:block;width:4px;background:var(--amber);border-radius:2px}
+.player{display:flex;align-items:center;gap:14px;background:#e9e4dc;border-radius:14px;padding:12px 20px}
+.player .play{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;border:0;display:grid;place-items:center}
+.player .play svg{fill:#fff;stroke:#fff;width:18px;height:18px}
+.player .mid{flex:1;font-size:.78rem}.player .mid b{display:block;font-size:.8rem}
+.player input[type=range]{width:100%;accent-color:var(--ink)}
+.player .vol{background:none;border:0}
+.tip{background:#fbe3c0;border-radius:12px;padding:14px 16px;font-size:.95rem}
+.tip b{display:flex;gap:8px;align-items:center;color:var(--orange);margin-bottom:6px}
+.micbox{display:flex;align-items:center;justify-content:center;gap:34px;margin:26px 0 6px}
+.lvl{display:flex;gap:6px;align-items:center;height:56px}.lvl i{display:block;width:4px;height:8px;border-radius:3px;background:#b9c4c6;transition:height .08s}
+.micbtn{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;font-family:var(--serif);font-weight:700;font-size:1.25rem}
+.micbtn .disc{width:92px;height:92px;border-radius:50%;background:var(--orange);display:grid;place-items:center;color:#fff;box-shadow:0 8px 20px rgba(213,68,15,.35);position:relative}
+.micbtn .disc svg{width:44px;height:44px}
+.micbtn.live .disc{animation:pulse 1.1s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 14px rgba(213,68,15,.18)}}
+@media (prefers-reduced-motion:reduce){.micbtn.live .disc{animation:none}}
+.timer{text-align:center;color:var(--mut);font-size:.92rem;min-height:1.4em}
+.timer.err{color:var(--orange);font-weight:700}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+/* MERCI */
+.thanks{position:relative;max-width:1100px;margin:0 auto;padding:30px 28px 0;display:grid;grid-template-columns:1.4fr 1fr;gap:30px;overflow:hidden}
+.check{width:64px;height:64px;border-radius:50%;background:#19a55a;color:#fff;display:grid;place-items:center;margin:0 auto 6px;box-shadow:0 0 0 8px #d4efdf}
+.check svg{width:36px;height:36px;stroke-width:3.5}
+.thanks h2{font-size:clamp(1.8rem,3.4vw,2.3rem);color:var(--teal);text-align:center}
+.thanks .t p{text-align:center;margin-top:8px}
+.next{background:#fff8f0;border:1px solid var(--line);border-radius:12px;align-self:center;overflow:hidden}
+.next h3{background:var(--cream2);padding:10px 18px;font-size:1.05rem;display:flex;gap:10px;align-items:center;color:var(--teal)}
+.next .bd{padding:18px;text-align:center}
+.next .bd h4{font-family:var(--serif);font-size:1.7rem;color:var(--teal)}
+.next ul{list-style:none;margin-top:12px;text-align:left;font-weight:700;display:grid;gap:8px}
+.next li{display:flex;gap:12px;align-items:center}.next li svg{color:var(--orange)}
+.tbtns{grid-column:1/-1;display:grid;gap:12px;max-width:520px;margin:0 auto 24px;width:100%;position:relative;z-index:1}
+.sky{grid-column:1/-1;height:130px;margin:0 -28px}
+.sky svg{width:100%;height:100%;stroke:none;display:block}
+.stub{max-width:700px;margin:70px auto;text-align:center;padding:0 24px}.stub h2{color:var(--teal);font-size:2rem;margin-bottom:10px}
+/* consentement */
+dialog{margin:auto;border:0;border-radius:16px;padding:28px;max-width:480px;width:92%;background:var(--cream);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(8,40,48,.6)}
+dialog h3{font-size:1.5rem;color:var(--teal);margin-bottom:8px}
+dialog label.c{display:flex;gap:12px;margin:16px 0;font-size:.95rem}dialog input[type=checkbox]{width:20px;height:20px;margin-top:3px;accent-color:var(--orange)}
+dialog .row{display:flex;gap:10px;justify-content:flex-end}
+@media(max-width:980px){.logo-m{display:flex}.hero{grid-template-columns:1fr}.hero .land,.right{display:none}.rec-main{grid-template-columns:1fr}.thanks{grid-template-columns:1fr}.how h3{border:0;padding:0}.chev{display:none}.brand{border:0}.bar{height:auto;flex-wrap:wrap;padding:10px 16px}nav{margin:0;width:100%}}
+@media(max-width:600px){
+.bar{padding:8px 12px;gap:6px;min-height:0}
+.brand{border:0;padding:0}.brand img{height:60px}
+nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+nav::-webkit-scrollbar{display:none}
+nav button{white-space:nowrap;padding:10px 12px;font-size:.92rem}
+.badge{font-size:.78rem;padding:6px 14px;text-align:center;line-height:1.25}
+.center{padding:20px 16px}.logo .wm{font-size:2.3rem}.wave{height:48px}
+.btn{min-height:46px;padding:10px 14px;font-size:.95rem}.btn.primary{width:100%;padding:12px}
+.rec-wrap{padding:16px 14px 28px}
+.rec-head h2{font-size:1.15rem}.pk{padding:5px 14px;font-size:.9rem;white-space:nowrap}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions #b-ok{grid-column:1/-1;order:-1}
+.actions #b-skip,.actions #b-done{grid-column:1/-1}
+.micbox{gap:14px}.micbtn .disc{width:104px;height:104px}
+.fbar{flex-direction:column;text-align:center;padding:16px}.fbar>div{flex-direction:column}.fbar .sep{border:0;padding:0}
+.thanks{padding:22px 14px 0}.tbtns{margin-bottom:18px}
+}
+#about .stub,#thesis .stub,#privacy .stub,#admin .stub{max-width:850px;text-align:left;line-height:1.75}#about .stub p,#thesis .stub p,#privacy .stub p,#admin .stub p{margin:14px 0}#admin-key{display:block;margin:12px 0;padding:12px;border:1px solid #c5d1d9;border-radius:8px;width:min(100%,400px)}#admin-results{margin:18px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* ===== ADMINISTRATION (bloc unique) ===== */
+#admin{background:var(--cream);min-height:60vh}
+#admin [hidden]{display:none!important}
+#admin .ad{max-width:1280px;margin:0 auto;padding:26px 28px 48px}
+#admin .ad-msg{display:none;margin:0 0 16px;padding:11px 16px;border-radius:10px;background:#fff1d6;border:1px solid #f1cf8a;color:#6b4a0e}
+#admin .ad-msg.on{display:block}#admin .ad-msg.err{background:#fde7e2;border-color:#f0b3a6;color:#8f2410}
+#admin .ad-login{max-width:460px;margin:34px auto 50px;background:#fdf5ea;border:1px solid var(--line);border-radius:18px;padding:34px 30px;text-align:center;box-shadow:0 14px 36px rgba(14,74,87,.08)}
+#admin .ad-lock{width:64px;height:64px;border-radius:50%;background:#fbdcb2;color:var(--orange);display:grid;place-items:center;margin:0 auto 14px}#admin .ad-lock svg{width:30px;height:30px}
+#admin .ad-login h2{font-family:var(--serif);font-size:2rem;color:var(--teal)}
+#admin .ad-login p{color:var(--mut);margin:8px 0 20px}
+#admin .ad-login label{display:block;text-align:left;font-weight:700;margin-bottom:6px;color:var(--teal)}
+#admin .ad-login input{width:100%;padding:13px 14px;border:1px solid #ddbaa0;border-radius:10px;background:#fffaf4;font:inherit;margin-bottom:16px;color:var(--ink)}
+#admin .ad-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:10px;padding:10px 16px;white-space:nowrap;font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--orange);background:transparent;color:var(--orange)}
+#admin .ad-btn:hover{background:#fff1e3}#admin .ad-btn.fill{background:var(--orange);color:#fff}#admin .ad-btn.fill:hover{background:#b93a0c}
+#admin .ad-btn:disabled{opacity:.45;cursor:not-allowed}
+#admin .ad-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+#admin .ad-title{display:flex;align-items:center;gap:20px}
+#admin .ad-title .wave{height:64px}
+#admin .ad-title h2{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);color:var(--teal);line-height:1.05}
+#admin .ad-title p{color:var(--mut);font-size:1.05rem;margin-top:4px}
+#admin .ad-user{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;color:var(--teal)}
+#admin .ad-user .u{display:flex;align-items:center;gap:9px;margin-right:6px}#admin .ad-user .u svg{fill:currentColor;stroke:none;width:1.4em;height:1.4em}
+#admin .ad-card{background:#fdf5ea;border:1px solid var(--line);border-radius:16px;min-width:0}
+#admin .ad-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:18px}
+#admin .ad-kpi{display:flex;align-items:center;gap:18px;padding:18px 22px}
+#admin .ad-kpi>svg{width:54px;height:54px;color:var(--orange);stroke-width:1.7}
+#admin .ad-kpi .num{font-family:var(--serif);font-weight:700;font-size:2.3rem;line-height:1;color:var(--teal)}
+#admin .ad-kpi b{display:block;color:var(--teal);font-size:1.02rem;line-height:1.2;margin-top:3px}
+#admin .ad-kpi small{color:var(--mut);font-size:.93rem}
+#admin .ad-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;margin-bottom:18px}
+#admin .ad-pan{padding:20px 22px}
+#admin .ad-pan h3{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:1.4rem;color:var(--teal);margin-bottom:12px}
+#admin .ad-pan h3 svg{color:var(--orange);width:1.25em;height:1.25em}
+#admin .ad-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#admin .ad-link{background:none;border:0;color:var(--orange);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;display:flex;gap:6px;align-items:center}
+#admin .ad-chart svg{width:100%;height:auto;display:block}#admin .ad-chart text{font-family:var(--sans);fill:var(--ink)}
+#admin .ad-tw{overflow-x:auto}#admin .ad-tw.long{max-height:330px;overflow-y:auto}
+#admin .ad-t{width:100%;border-collapse:collapse;font-size:.98rem;min-width:430px}
+#admin .ad-t th{background:var(--cream2);text-align:left;font-weight:700;padding:9px 12px;color:var(--ink);font-size:.94rem;position:sticky;top:0}
+#admin .ad-t th:first-child{border-radius:8px 0 0 8px}#admin .ad-t th:last-child{border-radius:0 8px 8px 0}
+#admin .ad-t td{padding:10px 12px;border-bottom:1px solid #ecd9c0;color:var(--ink)}#admin .ad-t td.r{text-align:right}
+#admin .ad-t.ex{min-width:560px}#admin .ad-t.ex td{padding:7px 10px}
+#admin .ad-vbtn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--orange);color:var(--orange);background:#fff8f0;border-radius:999px;padding:4px 18px;font:inherit;font-weight:700;cursor:pointer}
+#admin .ad-vbtn:hover{background:#fff1e3}#admin .ad-vbtn svg{width:.85em;height:.85em}
+#admin .ad-tools{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin:6px 0 12px}
+#admin .ad-f{display:flex;flex-direction:column;gap:4px;min-width:180px;flex:0 1 215px}
+#admin .ad-f label{font-size:.95rem;font-weight:700;color:var(--teal)}
+#admin .ad-f select{padding:10px 36px 10px 12px;border:1px solid #ddbaa0;border-radius:10px;background:#fffaf4;font:inherit;color:var(--ink)}
+#admin .ad-sp{flex:1 1 0;min-width:0}
+#admin .ad-info{color:var(--mut);margin:0 0 14px;font-size:.97rem}
+#admin .ad-ex{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+#admin .ad-ap{display:flex;align-items:center;gap:9px;background:#e9e4dc;border-radius:999px;padding:4px 10px;font-size:.78rem;white-space:nowrap}
+#admin .ad-ap button{background:none;border:0;display:grid;place-items:center;padding:3px;color:var(--ink);cursor:pointer}
+#admin .ad-ap .pg{width:42px;height:4px;background:#cfc7bb;border-radius:2px;overflow:hidden;flex:none}#admin .ad-ap .pg i{display:block;height:100%;width:0;background:var(--teal)}
+#admin .ad-ap svg{width:1em;height:1em}
+#admin .ad-q{display:inline-block;border-radius:999px;padding:2px 11px;font-size:.8rem;font-weight:700}
+#admin .ad-q.ok{background:#dcf3e5;color:#15683a}#admin .ad-q.warn{background:#fff0cc;color:#855a00}#admin .ad-q.bad{background:#fbd9d3;color:#982611}
+#admin .ad-miss{color:#982611;font-size:.85rem}
+@media(max-width:1000px){#admin .ad-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}#admin .ad-grid,#admin .ad-ex{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){#admin .ad{padding:18px 14px 36px}#admin .ad-kpis{grid-template-columns:1fr}#admin .ad-title .wave{display:none}#admin .ad-f{min-width:100%;flex-basis:100%}#admin .ad-tools .ad-btn{width:100%}#admin .ad-user{width:100%;justify-content:space-between}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="yaz" viewBox="0 0 40 40"><path d="M6 6Q20 24 34 6M6 34Q20 16 34 34M20 6V34M11 20H29" fill="none"/></symbol>
+ <symbol id="mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4"/></symbol>
+ <symbol id="cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></symbol>
+ <symbol id="layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5M3 17.5l9 5 9-5" opacity=".7"/></symbol>
+ <symbol id="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+</defs></svg>
+
+<header><div class="bar">
+  <button class="brand" data-v="home" aria-label="Awar n’Arrif, accueil"><img src="logo-awar-narrif.png" alt="Awar n’Arrif – Audios Amazigh de Nador"></button>
+  <nav aria-label="Navigation principale">
+    <button data-v="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>Accueil</button>
+    <button data-v="part"><svg><use href="#mic"/></svg>Participer</button>
+    <button data-v="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-5M12 8h.01"/></svg>À propos</button>
+    <button data-v="thesis"><svg><use href="#layers"/></svg>Thèse</button>
+    <button data-v="privacy"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Confidentialité</button>
+    <button data-v="admin"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Administration</button>
+  </nav>
+</div></header>
+
+<main>
+<!-- ================= PAGE 1 : ACCUEIL ================= -->
+<section id="home" class="view on">
+  <div class="hero">
+    <div class="land"><img src="nador-panorama.jpg" alt="Panorama côtier de Nador" loading="eager"></div>
+    <div class="center">
+      <div class="logo logo-m"><div class="wave" aria-hidden="true"><i style="height:26px"></i><i style="height:52px"></i><i style="height:68px"></i><i style="height:44px"></i><i style="height:20px"></i></div><h1 class="wm">Awar n’Arrif</h1></div>
+      <span class="badge"><svg><use href="#cap"/></svg>Projet de recherche universitaire</span>
+      <h2>Ensemble, donnons une voix numérique au Tarifit de Nador.</h2>
+      <p>Participez à la constitution d’un corpus vocal en Tamazight (Tarifit) de la ville de Nador, dans le cadre d’une thèse de doctorat à la Faculté des sciences appliquées de Nador – Université Mohammed Premier.</p>
+      <div class="chips"><span class="chip"><svg><use href="#layers"/></svg>10 phrases</span><span class="chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="8"/><path d="M12 14V9M9 2h6"/></svg>5 secondes maximum</span></div>
+      <button class="btn primary" id="start">Commencer <svg viewBox="0 0 24 24" style="width:1em"><path d="M4 12h16M14 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="right" aria-hidden="true"><div class="logo"><div class="wave" aria-hidden="true"><i style="height:26px"></i><i style="height:52px"></i><i style="height:68px"></i><i style="height:44px"></i><i style="height:20px"></i></div><span class="wm">Awar n’Arrif</span></div><img src="micro-tapis.png" alt=""></div>
+  </div>
+  <div class="how">
+    <h3>Comment participer ?</h3>
+    <div class="step"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0116 0v3M4 15h3v5H4zM17 15h3v5h-3z"/></svg></div><div><b>Écouter</b><span>Une phrase en Tarifit</span></div></div>
+    <svg class="chev"><use href="#chev"/></svg>
+    <div class="step"><div class="ic"><svg><use href="#mic"/></svg></div><div><b>Répéter</b><span>Avec votre voix naturelle</span></div></div>
+    <svg class="chev"><use href="#chev"/></svg>
+    <div class="step"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg></div><div><b>Valider</b><span>10 enregistrements</span></div></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 2 : PARTICIPER ================= -->
+<section id="part" class="view">
+  <div class="rec-wrap">
+    <div class="pat tl" style="opacity:.35"></div>
+    <div class="rec-head"><h2><svg><use href="#mic"/></svg>Enregistrement d’un paquet</h2><span class="pk" id="pk">Paquet n° 4</span></div>
+    <div class="prog"><span id="cnt">Phrase 01 / 10</span><div class="bar2"><div id="bar" style="width:0"></div></div><span id="pct">0 %</span></div>
+    <div class="rec-main">
+      <div>
+        <div class="phrase" lang="rif"><span class="mini" aria-hidden="true"><i style="height:10px"></i><i style="height:22px"></i><i style="height:14px"></i><i style="height:26px"></i><i style="height:12px"></i></span><span id="phrase"></span></div>
+        <div class="player">
+          <button class="play" id="rp" aria-label="Écouter la phrase de référence"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></button>
+          <div class="mid"><b>Écouter la phrase (audio de référence)</b><span id="rt">0:00 / 0:04</span><input type="range" id="rs" min="0" max="100" value="0" aria-label="Position"></div>
+          <button class="vol" id="rv" aria-label="Son"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9zM16 8a5 5 0 010 8M19 5a9 9 0 010 14"/></svg></button>
+        </div>
+      </div>
+      <aside class="tip"><b><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0012 3z"/></svg>Conseil</b>Installez-vous dans un environnement calme et parlez naturellement.</aside>
+    </div>
+    <div class="micbox">
+      <div class="lvl" id="l1" aria-hidden="true"></div>
+      <button class="micbtn" id="mb"><span class="disc"><svg><use href="#mic"/></svg></span><span id="ml">Enregistrer</span></button>
+      <div class="lvl" id="l2" aria-hidden="true"></div>
+    </div>
+    <p class="timer" id="st" role="status"></p>
+    <div class="actions">
+      <button class="btn" id="b-play" disabled><svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4l14 8-14 8z"/></svg>Réécouter</button>
+      <button class="btn" id="b-redo" disabled><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-3-6.2M20 4v5h-5"/></svg>Recommencer</button>
+      <button class="btn solid" id="b-ok" disabled><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Valider</button>
+      <button class="btn" id="b-skip" disabled title="Disponible quand les 10 phrases sont enregistrées">Passer au paquet suivant <svg viewBox="0 0 24 24"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg></button>
+      <button class="btn" id="b-done" title="Si vous avez déjà enregistré ce paquet auparavant"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg>Paquet déjà enregistré : passer au suivant</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 3 : MERCI ================= -->
+<section id="merci" class="view">
+  <div class="thanks">
+    <div class="pat tr" style="opacity:.35"></div>
+    <div class="t">
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+      <h2>Tanemmirt ! Merci pour votre contribution.</h2>
+      <p><b>Vos 10 enregistrements ont bien été sauvegardés.</b></p>
+      <p>Votre participation contribue à la constitution d’un corpus vocal pour la reconnaissance automatique de la parole.</p>
+    </div>
+    <aside class="next">
+      <h3><svg><use href="#layers"/></svg>Paquet suivant proposé</h3>
+      <div class="bd"><h4 id="np">Paquet n° 7</h4><small>(le moins enregistré)</small>
+        <ul><li><svg><use href="#layers"/></svg>10 phrases</li><li><svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="8"/><path d="M12 14V9M9 2h6"/></svg>5 secondes maximum</li></ul></div>
+    </aside>
+    <div class="tbtns">
+      <button class="btn" id="t-next">Passer au paquet suivant <svg viewBox="0 0 24 24"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg></button>
+      <button class="btn" id="t-later"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Faire un autre paquet plus tard</button>
+    </div>
+    <div class="sky" aria-hidden="true"><svg viewBox="0 0 1100 130" preserveAspectRatio="none"><path d="M0 130V80L120 40 220 80 330 30 460 85 560 60V130z" fill="#a6bcd6" opacity=".7"/><path d="M0 130V105Q250 70 520 100T1100 85V130z" fill="#c9a24a" opacity=".6"/><path d="M600 130V90Q800 60 1100 100V130z" fill="#a98d3d" opacity=".5"/></svg></div>
+  </div>
+</section>
+
+<section id="about" class="view"><div class="stub"><h2>À propos d’Awar n’Arrif</h2><p>Awar n'Arrif est une initiative de collecte de voix en amazigh rifain (Tarifit) de Nador. Elle vise à constituer une base de données vocales destinée à soutenir et à enrichir la recherche scientifique sur la langue amazighe rifaine.</p><p>La participation est volontaire. Vous pouvez contribuer à votre rythme et revenir plus tard pour poursuivre votre participation.</p><p>Ce projet s'inscrit dans une thèse de doctorat à la Faculté des sciences appliquées de Nador – Université Mohammed Premier.</p><button class="btn solid" data-v="home">Retour à l’accueil</button></div></section>
+<section id="thesis" class="view"><div class="stub"><h2>Thèse et recherche</h2><p>Ce projet vise à constituer un corpus vocal en Tarifit de Nador pour soutenir la recherche sur la reconnaissance automatique de la parole.</p><p>Chaque contribution comprend un paquet de 10 phrases courtes, prononcées naturellement. Les enregistrements sont destinés à un usage de recherche universitaire.</p><button class="btn solid" data-v="home">Retour à l’accueil</button></div></section>
+<section id="privacy" class="view"><div class="stub"><h2>Confidentialité</h2><p>La participation est volontaire. Aucun compte nominatif n'est nécessaire pour contribuer. La voix enregistrée peut néanmoins constituer une donnée personnelle identifiable : l'absence de nom ne garantit pas l'anonymat.</p><p>Les fichiers vocaux et les informations associées aux phrases sont stockés sur le serveur du projet pour la constitution d'un corpus de recherche. Les données ne sont pas publiées automatiquement par ce site.</p><p>Pour toute question relative à l'utilisation de vos enregistrements, à leur conservation ou à une demande de retrait, contactez <a href="mailto:berchane2026@gmail.com">berchane2026@gmail.com</a>. Sans identifiant de contribution, retrouver précisément un enregistrement pour le supprimer peut nécessiter des informations complémentaires.</p><p>Avant une collecte publique, le responsable du projet doit compléter les informations obligatoires : identité du responsable de traitement, durée de conservation, base juridique, destinataires, droits applicables et modalités d'exercice de ces droits.</p><button class="btn solid" data-v="home">Retour à l’accueil</button></div></section>
+<section id="admin" class="view"><div class="ad">
+ <div id="ad-msg" class="ad-msg" role="status" aria-live="polite"></div>
+
+ <!-- Connexion -->
+ <div id="ad-login" class="ad-login" hidden>
+  <div class="ad-lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+  <h2>Administration</h2>
+  <p>Accès réservé à l’administrateur d’Awar n’Arrif.</p>
+  <form id="ad-form"><label for="ad-pass">Mot de passe administrateur</label><input id="ad-pass" type="password" autocomplete="current-password" required placeholder="Votre mot de passe"><button class="ad-btn fill" type="submit" style="width:100%">Se connecter</button></form>
+ </div>
+
+ <!-- Tableau de bord -->
+ <div id="ad-dash" hidden>
+  <div class="ad-head">
+   <div class="ad-title">
+    <div class="wave" aria-hidden="true"><i style="height:26px"></i><i style="height:52px"></i><i style="height:68px"></i><i style="height:44px"></i><i style="height:20px"></i></div>
+    <div><h2>Administration</h2><p>Gestion de la collecte vocale – Projet de recherche Awar n’Arrif</p></div>
+   </div>
+   <div class="ad-user">
+    <span class="u"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4.2"/><path d="M3.5 21c0-4.6 3.8-7.5 8.5-7.5s8.5 2.9 8.5 7.5z"/></svg>Administrateur</span>
+    <button class="ad-btn" id="ad-refresh"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-3-6.2M20 4v5h-5"/></svg>Actualiser</button>
+    <button class="ad-btn" id="ad-out"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Déconnexion</button>
+   </div>
+  </div>
+
+  <div class="ad-kpis">
+   <div class="ad-card ad-kpi"><svg><use href="#layers"/></svg><div><div class="num" id="ad-k1">–</div><b>Paquets</b><small>au total</small></div></div>
+   <div class="ad-card ad-kpi"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="10" r="2.3"/><circle cx="19" cy="10" r="2.3"/><path d="M6.5 20c0-3.3 2.4-5.5 5.5-5.5s5.5 2.2 5.5 5.5zM1.5 18.5c0-2.4 1.5-4 3.5-4M22.5 18.5c0-2.4-1.5-4-3.5-4"/></svg><div><div class="num" id="ad-k2">–</div><b>Contributions</b><small>enregistrées</small></div></div>
+   <div class="ad-card ad-kpi"><svg><use href="#mic"/></svg><div><div class="num" id="ad-k3">–</div><b>Audios (WAV)</b><small>fichiers enregistrés</small></div></div>
+   <div class="ad-card ad-kpi"><svg viewBox="0 0 24 24"><path d="M5 21V13M12 21V6M19 21V10"/></svg><div><div class="num" id="ad-k4">–</div><b>Paquet le moins enregistré</b><small id="ad-k4s"></small></div></div>
+  </div>
+
+  <div class="ad-grid">
+   <div class="ad-card ad-pan"><h3><svg viewBox="0 0 24 24"><path d="M5 21V13M12 21V6M19 21V10"/></svg>Contributions par paquet</h3><div class="ad-chart" id="ad-chart"></div></div>
+   <div class="ad-card ad-pan">
+    <div class="ad-top"><h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Dernières contributions</h3><button class="ad-link" id="ad-all">Voir tout <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    <div class="ad-tw" id="ad-recent-wrap"><table class="ad-t"><thead><tr><th>ID</th><th>Paquet</th><th>Date et heure</th><th>Audios</th><th></th></tr></thead><tbody id="ad-recent"></tbody></table></div>
+   </div>
+  </div>
+
+  <div class="ad-card ad-pan" id="ad-explorer">
+   <h3><svg viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0116 0v3M4 15h3v5H4zM17 15h3v5h-3z"/></svg>Explorer une contribution</h3>
+   <div class="ad-tools">
+    <div class="ad-f"><label for="ad-packet">Paquet</label><select id="ad-packet"></select></div>
+    <div class="ad-f"><label for="ad-contrib">Contribution</label><select id="ad-contrib"></select></div>
+    <div class="ad-sp"></div>
+    <button class="ad-btn fill" id="ad-zip-packet" disabled><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Télécharger le paquet (ZIP)</button>
+    <button class="ad-btn" id="ad-zip-one" disabled><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Contribution (ZIP)</button>
+    <button class="ad-btn" id="ad-csv"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5M9 13h6M9 17h6"/></svg>Exporter en CSV</button>
+   </div>
+   <p class="ad-info" id="ad-info"></p>
+   <div class="ad-ex" id="ad-ex"></div>
+  </div>
+ </div>
+</div></section>
+</main>
+
+<footer><div class="fbar">
+  <div><img src="logo-faculte.png" alt="Faculté des sciences appliquées de Nador" class="fac"></div>
+  <div class="sep"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><a href="mailto:berchane2026@gmail.com">Contact : berchane2026@gmail.com</a></div>
+</div></footer>
+
+<dialog id="dlg">
+  <h3>Avant de commencer</h3>
+  <p>Vos enregistrements sont anonymes et utilisés uniquement pour la recherche universitaire sur la reconnaissance vocale du Tarifit.</p>
+  <label class="c"><input type="checkbox" id="cs"><span>Je consens à l’utilisation de mes enregistrements dans ce cadre. Je peux demander leur suppression à tout moment.</span></label>
+  <div class="row"><button class="btn" id="d-no">Annuler</button><button class="btn solid" id="d-ok" disabled>Continuer</button></div>
+</dialog>
+
+<script>
+const MAX_SEC=5, API='/api';
+const $=id=>document.getElementById(id);
+let contributionId=crypto.randomUUID(), packet=null, sentences=[], nextSuggestion=null, excluded=[], idx=0, clips=[], cur=null, rec=null, stream=null, ctx=null, an=null, raf=null, timer=null, t0=0, playAudio=null, consent=false, busy=false;
+const REF_AUDIO=(p,n)=>`audio/ref/${String(p).padStart(2,'0')}/${String(n).padStart(2,'0')}.wav`;
+const DONE_KEY='awar_paquets_faits';
+const getDone=()=>{try{return JSON.parse(localStorage.getItem(DONE_KEY))||[]}catch{return []}};
+const markDone=p=>{try{const a=getDone();localStorage.setItem(DONE_KEY,JSON.stringify([...new Set([...a,p])]))}catch{}};
+const setSt=(t,err=false)=>{$('st').textContent=t;$('st').className='timer'+(err?' err':'')};
+// Verrouille les commandes pendant la prise de son, sauf le bouton Arrêter.
+const recordingControls=['b-play','b-redo','b-ok','b-skip','b-done','rp','rv','rs'];
+function setRecordingLock(locked){
+ recordingControls.forEach(id=>{const el=$(id);if(el)el.disabled=locked});
+ document.querySelectorAll('nav button,[data-v],#start').forEach(el=>{if(el!==$('mb'))el.disabled=locked});
+ $('mb').disabled=false; // L'arrêt doit toujours rester possible.
+}
+// Capture PCM brute (sans WebM/Opus), WAV PCM16 à la fréquence native compatible serveur.
+// QUALITÉ AUDIO : capture PCM brute (aucun codec), WAV 16 bits mono.
+const WAV_RATE=0;       // 0 : préserver le PCM à la fréquence native du microphone (44,1 ou 48 kHz en général).
+const TARGET_PEAK=0;   // Ne jamais amplifier automatiquement : cela amplifierait également le bruit de fond.
+const MAX_GAIN_DB=24;   // amplification maximale autorisée
+let pcmBlocks=[],captureNode=null,captureSource=null,captureGain=null,captureActive=false,captureStarting=false;
+function pcmToWav(samples,rate){
+ const out=new ArrayBuffer(44+samples.length*2),v=new DataView(out);
+ const put=(i,t)=>{for(let j=0;j<t.length;j++)v.setUint8(i+j,t.charCodeAt(j))};
+ put(0,'RIFF');v.setUint32(4,36+samples.length*2,true);put(8,'WAVE');put(12,'fmt ');
+ v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+ v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+ put(36,'data');v.setUint32(40,samples.length*2,true);
+ for(let i=0;i<samples.length;i++){const x=Math.max(-1,Math.min(1,samples[i]));v.setInt16(44+2*i,x<0?Math.round(x*32768):Math.round(x*32767),true)}
+ return new Blob([out],{type:'audio/wav'});
+}
+function audioQuality(samples){let peak=0,sq=0,clipped=0;for(const x of samples){const v=Math.abs(x);peak=Math.max(peak,v);sq+=x*x;if(v>=.99)clipped++}return {peak,rmsDb:20*Math.log10(Math.sqrt(sq/Math.max(1,samples.length))||1e-9),clip:clipped/Math.max(1,samples.length)}}
+// Rééchantillonnage haute qualité : filtre sinc fenêtré (Hann) avec marge anti-repliement, rapport quelconque (ex. 44,1 kHz -> 16 kHz).
+// (L'ancien OfflineAudioContext rééchantillonnait par interpolation linéaire sans filtre : repliement de spectre = son "sale".)
+function resampleSinc(x,from,to){
+ if(from===to)return x;
+ const ratio=from/to,n=Math.max(1,Math.floor(x.length/ratio)),out=new Float32Array(n);
+ const cutoff=Math.min(1,1/ratio)*.94,half=Math.ceil(12/cutoff),RES=512,kern=new Float32Array(2*half*RES+1);
+ for(let j=0;j<kern.length;j++){const d=(j-half*RES)/RES,a=Math.PI*d*cutoff;kern[j]=(Math.abs(a)<1e-9?1:Math.sin(a)/a)*(.5+.5*Math.cos(Math.PI*d/half))} // noyau précalculé (rapide)
+ for(let i=0;i<n;i++){
+  const c=i*ratio,k0=Math.max(0,Math.ceil(c-half)),k1=Math.min(x.length-1,Math.floor(c+half));let acc=0,sum=0;
+  for(let k=k0;k<=k1;k++){const w=kern[Math.round((k-c+half)*RES)];acc+=x[k]*w;sum+=w}
+  out[i]=sum?acc/sum:0;
+ }
+ return out;
+}
+function removeDc(x){let m=0;for(let i=0;i<x.length;i++)m+=x[i];m/=Math.max(1,x.length);for(let i=0;i<x.length;i++)x[i]-=m}
+function boostQuiet(x){ // renvoie le gain appliqué en dB
+ if(!TARGET_PEAK)return 0;let p=0;for(let i=0;i<x.length;i++){const v=Math.abs(x[i]);if(v>p)p=v}
+ if(p<.008)return 0;const g=Math.min(TARGET_PEAK/p,Math.pow(10,MAX_GAIN_DB/20));if(g<=1.05)return 0;
+ for(let i=0;i<x.length;i++)x[i]*=g;return +(20*Math.log10(g)).toFixed(1);
+}
+function fadeEdges(x,rate){const n=Math.min(Math.floor(rate*.008),x.length>>1);for(let i=0;i<n;i++){const g=i/n;x[i]*=g;x[x.length-1-i]*=g}} // évite les "clics" de début/fin
+async function request(path,opts={}){
+ let r;try{r=await fetch(API+path,opts)}catch{throw Error('Connexion au serveur impossible. Vérifiez votre connexion et réessayez.')} 
+ let data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||`Erreur serveur (${r.status})`);return data;
+}
+function show(v){document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='merci'&&b.dataset.v==='part')));window.scrollTo(0,0)}
+async function getRecommended(exclude=[]){return request('/packets/recommend'+(exclude.length?'?exclude='+encodeURIComponent(exclude.join(',')):''))}
+async function selectPacket(exclude=[]){
+ const data=await getRecommended(exclude);packet=data.packet.id;sentences=data.packet.sentences;idx=0;clips=[];cur=null;contributionId=crypto.randomUUID();excluded=exclude;render();return data;
+}
+async function openParticipant(){
+ try{await selectPacket([]);show('part')}catch(e){setSt(e.message,true);show('part')}
+}
+async function go(v){if(v==='part'&&!consent){$('dlg').showModal();return}if(v==='part'){await openParticipant();return}show(v)}
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
+$('start').onclick=()=>go('part');$('cs').onchange=e=>$('d-ok').disabled=!e.target.checked;
+$('d-no').onclick=()=>$('dlg').close();$('d-ok').onclick=async()=>{consent=true;$('dlg').close();await openParticipant()};
+['l1','l2'].forEach(id=>$(id).innerHTML='<i></i>'.repeat(9));
+const bars=[...document.querySelectorAll('.lvl i')];const resetBars=()=>bars.forEach(b=>b.style.height='8px');
+async function prepareMicro(){
+ // Ouvrir un nouveau flux pour chaque prise : ne pas réutiliser un micro resté actif.
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+ if(!navigator.mediaDevices?.getUserMedia)throw Error('Micro indisponible : utilisez HTTPS ou localhost.');
+ stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+ return stream;
+}
+function render(){
+ const total=sentences.length||10,finished=idx>=total,already=getDone().includes(packet),pct=Math.round(Math.min(idx,total)/total*100);
+ $('pk').textContent=packet===null?'Chargement…':`Paquet n° ${packet}`;
+ $('cnt').textContent=finished?`Paquet terminé ${total} / ${total}`:`Phrase ${String(idx+1).padStart(2,'0')} / ${total}`;
+ $('bar').style.width=pct+'%';$('pct').textContent=pct+' %';
+ $('phrase').textContent=finished?'Paquet enregistré. Tanemmirt !':(sentences[idx]||'Chargement de la phrase…');
+ $('ml').textContent='Enregistrer';$('mb').classList.remove('live');$('mb').disabled=finished||busy||!sentences.length;
+ ['b-play','b-redo','b-ok'].forEach(i=>$(i).disabled=true);
+ $('b-skip').disabled=!finished;$('b-skip').classList.toggle('solid',finished); // comportement d'origine inchangé
+ $('b-done').classList.toggle('solid',already&&!finished);
+ cur=null;resetBars();setSt(finished?'Votre paquet est enregistré. Vous pouvez passer au suivant.':already?'Vous avez déjà enregistré ce paquet : utilisez « Paquet déjà enregistré » pour passer au suivant.':'Appuyez sur Enregistrer, puis lisez la phrase.');
+ if(!finished&&packet!==null)loadRef();
+}
+function loadRef(){
+ if(playAudio)playAudio.pause();playAudio=new Audio(REF_AUDIO(packet,idx+1));
+ const fmt=s=>isFinite(s)?`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`:'0:00';
+ const upd=()=>{$('rt').textContent=`${fmt(playAudio.currentTime)} / ${fmt(playAudio.duration)}`;$('rs').value=playAudio.duration?playAudio.currentTime/playAudio.duration*100:0};
+ playAudio.ontimeupdate=upd;playAudio.onloadedmetadata=upd;playAudio.onerror=()=>$('rt').textContent='Audio de référence indisponible';
+ $('rs').value=0;$('rt').textContent='0:00 / 0:00';
+}
+$('rp').onclick=()=>playAudio&&(playAudio.paused?playAudio.play().catch(()=>{}):playAudio.pause());
+$('rs').oninput=e=>{if(playAudio?.duration)playAudio.currentTime=e.target.value/100*playAudio.duration};
+$('rv').onclick=()=>{if(playAudio)playAudio.muted=!playAudio.muted};
+async function stopRecording(){
+ if(!captureActive)return;captureActive=false;
+ clearTimeout(timer);cancelAnimationFrame(raf);
+ try{captureSource?.disconnect();captureNode?.disconnect();captureGain?.disconnect()}catch(e){}
+ // Laisser arriver les derniers blocs postés par AudioWorklet avant de fabriquer le WAV.
+ await new Promise(resolve=>setTimeout(resolve,70));
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+ const rate=ctx?.sampleRate||48000;
+ const chunks=pcmBlocks;pcmBlocks=[];
+ const count=chunks.reduce((n,x)=>n+x.length,0);const data=new Float32Array(Math.min(count,Math.floor(MAX_SEC*rate)));
+ let off=0;for(const c of chunks){if(off>=data.length)break;const n=Math.min(c.length,data.length-off);data.set(c.subarray(0,n),off);off+=n}
+ if(ctx){await ctx.close().catch(()=>{});ctx=null}captureNode=null;captureSource=null;captureGain=null;resetBars();
+ $('mb').classList.remove('live');$('ml').textContent='Enregistrer';$('mb').disabled=true;
+ try{
+  if(data.length<rate*.3)throw Error('Aucun son détecté. Recommencez.');
+  removeDc(data);                                   // supprime la composante continue (décalage du micro)
+  const q=audioQuality(data);                       // mesure sur le signal brut, avant toute amplification
+  // Le serveur accepte ces fréquences PCM. Conserver l'original si compatible ;
+  // convertir avec filtre anti-repliement uniquement dans les cas exceptionnels.
+  const acceptedRates=[16000,22050,24000,32000,44100,48000];
+  const outRate=WAV_RATE|| (acceptedRates.includes(rate)?rate:48000);
+  const samples=outRate===rate?data:resampleSinc(data,rate,outRate);
+  const gainDb=boostQuiet(samples);
+  fadeEdges(samples,outRate);
+  const wav=pcmToWav(samples,outRate);
+  if(cur?.url)URL.revokeObjectURL(cur.url);
+  cur={blob:wav,url:URL.createObjectURL(wav),duration:samples.length/outRate,sampleRate:outRate,sourceSampleRate:rate,peak:+q.peak.toFixed(4),rmsDb:+q.rmsDb.toFixed(1),clipping:+q.clip.toFixed(4),gainDb};
+  setRecordingLock(false);$('mb').disabled=false;$('b-skip').disabled=true;
+  $('b-play').disabled=false;$('b-redo').disabled=false;
+  const silent=q.peak<.03||q.rmsDb< -55;
+  const saturated=q.clip>.01;
+  $('b-ok').disabled=silent||saturated;
+  if(silent)setSt('Aucun son détecté. Vérifiez le micro puis recommencez.',true);
+  else if(saturated)setSt('Son saturé : prise refusée. Éloignez-vous du micro et recommencez.',true);
+  else if(q.rmsDb< -42)setSt('Volume faible : rapprochez-vous du micro et réécoutez avant de valider.');
+  else setSt(`WAV PCM 16 bits non compressé, mono ${+(outRate/1000).toFixed(2)} kHz (${cur.duration.toFixed(1)} s). Réécoutez puis validez.`);
+ }catch(e){setRecordingLock(false);$('b-skip').disabled=true;setSt(e.message,true)}
+}
+async function startRecording(){
+ if(busy||captureStarting)return;
+ if(captureActive){await stopRecording();return}
+ captureStarting=true;
+ try{
+  await prepareMicro();if(playAudio)playAudio.pause();
+  ctx=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();
+  captureSource=ctx.createMediaStreamSource(stream);an=ctx.createAnalyser();an.fftSize=256;captureSource.connect(an);
+  pcmBlocks=[];
+  if(ctx.audioWorklet?.addModule){
+   try{
+    const code="class AwarCapture extends AudioWorkletProcessor{process(inputs){const ch=inputs[0]&&inputs[0][0];if(ch)this.port.postMessage(ch.slice(0));return true}}registerProcessor('awar-capture',AwarCapture)";
+    const url=URL.createObjectURL(new Blob([code],{type:'application/javascript'}));
+    try{await ctx.audioWorklet.addModule(url)}finally{URL.revokeObjectURL(url)}
+    captureNode=new AudioWorkletNode(ctx,'awar-capture');captureNode.port.onmessage=e=>{pcmBlocks.push(e.data)};
+   }catch(e){console.warn('AudioWorklet indisponible, repli PCM',e)}
+  }
+  if(!captureNode){captureNode=ctx.createScriptProcessor(4096,1,1);captureNode.onaudioprocess=e=>{pcmBlocks.push(new Float32Array(e.inputBuffer.getChannelData(0)))}}
+  captureGain=ctx.createGain();captureGain.gain.value=0;captureSource.connect(captureNode);captureNode.connect(captureGain);captureGain.connect(ctx.destination);
+  captureActive=true;t0=performance.now();$('mb').classList.add('live');$('ml').textContent='Arrêter';setRecordingLock(true);
+  timer=setTimeout(()=>{stopRecording().catch(e=>setSt(e.message,true))},MAX_SEC*1000);
+  const d=new Uint8Array(an.frequencyBinCount);
+  (function loop(){if(!captureActive)return;an.getByteFrequencyData(d);bars.forEach((b,i)=>b.style.height=(8+d[(i%9)*3+2]/255*48)+'px');setSt(`Enregistrement… ${Math.min(MAX_SEC,(performance.now()-t0)/1000).toFixed(1)} / ${MAX_SEC} s`);raf=requestAnimationFrame(loop)})();
+ }catch(e){captureActive=false;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}if(ctx){await ctx.close().catch(()=>{});ctx=null}setRecordingLock(false);$('b-skip').disabled=true;setSt('Micro inaccessible : '+e.message,true)}
+ finally{captureStarting=false}
+}
+$('mb').onclick=startRecording;
+$('b-play').onclick=()=>cur&&new Audio(cur.url).play();
+$('b-redo').onclick=()=>{if(cur?.url)URL.revokeObjectURL(cur.url);render()};
+async function upload(){
+ const fd=new FormData();fd.append('packet',String(packet));fd.append('contribution_id',contributionId);
+ fd.append('meta',JSON.stringify(clips.map(c=>({id:c.id,text:c.text,duration:c.duration,sampleRate:c.sampleRate,sourceSampleRate:c.sourceSampleRate,peak:c.peak,rmsDb:c.rmsDb,clipping:c.clipping,gainDb:c.gainDb}))));
+ clips.forEach(c=>fd.append('audio',c.blob,`p${packet}_${String(c.id).padStart(2,'0')}.wav`));
+ return request('/contributions',{method:'POST',body:fd});
+}
+async function finishPacket(){
+ busy=true;$('mb').disabled=true;$('b-ok').disabled=true;setSt('Sauvegarde des 10 audios sur le serveur…');
+ try{
+   await upload();markDone(packet);
+   let next=null;try{next=await getRecommended([packet])}catch(e){console.warn(e)}
+   nextSuggestion=next?.packet||null;
+   $('np').textContent=nextSuggestion?`Paquet n° ${nextSuggestion.id}`:'À déterminer';
+   render();show('merci');
+ }catch(e){setSt(`Échec de sauvegarde : ${e.message}. Vos 10 audios sont conservés ici. Cliquez sur Valider pour réessayer.`,true);$('b-ok').disabled=false;}
+ finally{busy=false}
+}
+$('b-ok').onclick=async()=>{
+ if(busy)return;
+ if(idx<sentences.length){if(!cur)return;clips.push({id:idx+1,text:sentences[idx],...cur});idx++}
+ if(idx<sentences.length){render();return}
+ await finishPacket();
+};
+async function newPacket(exclude=[]){
+ try{await selectPacket(exclude);show('part')}catch(e){setSt(e.message,true);show('part')}
+}
+$('b-skip').onclick=()=>{if(idx>=sentences.length)newPacket([packet])};
+$('b-done').onclick=()=>newPacket([...new Set([...excluded,packet])]); // ne compte pas comme contribution
+$('t-next').onclick=()=>newPacket([packet]);
+$('t-later').onclick=()=>{idx=0;clips=[];show('home')};
+window.addEventListener('pagehide',()=>{if(stream)stream.getTracks().forEach(t=>t.stop())});
+</script>
+<script src="admin-v2.js" defer></script>
+</body>
+</html>

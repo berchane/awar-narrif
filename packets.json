@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "sentences": [
+		"rabhar yarsa nhara",
+		"rabhar ihaj nhara",
+		"mich thadjid nhara",
+		"min t3awadad nhara",
+		"ochayi aghi asamam",
+		"ochayi aghi achafay",
+		"thafonast anagh thahrach",
+		"baba irouh rkhadmath",
+		"yadji throuh atghar",
+		"ammi irouh adighar"
+    ]
+  },
+  {
+    "id": 2,
+    "sentences": [
+		"anah bouyafar thiwacha",
+		"anah ghar wourar",
+		"thghori thasbah awma",
+		"rouh atahad atghad",
+		"asogas damaynou khi mazighan",
+		"yallah anah anso atay",
+		"yallah anah anso rqahwa",
+		"yallah akidi thafghad",
+		"yallah ach asiwdagh",
+		"yallah anah thamazyida"
+    ]
+  },
+  {
+    "id": 3,
+    "sentences": [
+		"idorar n'arrif anagh chnan",
+		"arrif annagh",
+		"thammath n imjahdan",
+		"aman hman",
+		"aman samdan attas",
+		"awid aghrom anach",
+		"thiwacha zich khak",
+		"nattas zich idannad",
+		"korijan manis yakka",
+		"chfayach zi rafhamat i yakhwan"
+    ]
+  },
+  {
+    "id": 4,
+    "sentences": [
+		"zi rabda nachin ammo",
+		"assoq ikharraf zich",
+		"nfaq zich nhara",
+		"thazammit ag watay",
+		"wa attaja cha rhaq annach",
+		"anah an ssara alhosima",
+		"zid akidi thachad",
+		"zag fos ghar o fos",
+		"wa charrah cha ayathmach",
+		"wa attat cha agra n iwdan"
+
+    ]
+  },
+    {
+    "id": 5,
+    "sentences": [
+		"thawath tharraz",
+		"roh atsad zich",
+		"wich i haffan",
+		"chan khar ohafi thaguit",
+		"mani thzadghad",
+		"arahad danita",
+		"rouh diha gha yammach",
+		"sagh thfawt",
+		"sakhsi thfawt",
+		"nachin d irifiyen"
+
+    ]
+  },
+      {
+    "id": 6,
+    "sentences": [
+		"qim danita",
+		"wassinagh mani rouh nhra",
+		"mich dach aqqan awma",
+		"tanammirt attas",
+		"mani yadja assoq amaqran",
+		"aryazan hajan thammath",
+		"rachjar n rghabath ozghan",
+		"thakkar thimissi di rghabath",
+		"aman doqriran",
+		"hawar kh waman"
+
+    ]
+  },
+  {
+    "id": 7,
+    "sentences": [
+		"iwdan tafghan sadjirath",
+		"swas rahmo attas",
+		"tharwa n tamath annagh osind",
+		"isarman d atri",
+		"wa attogath cha awma",
+		"wa itiri gha min takhsad",
+		"qaghak dasagh dinni",
+		"min taguid nhara",
+		"thachid adjina nigh alla",
+		"dinni chan rqahwa"
+    ]
+  }
+]
