@@ -267,7 +267,7 @@ nav button{white-space:nowrap;padding:10px 12px;font-size:.92rem}
 <section id="part" class="view">
   <div class="rec-wrap">
     <div class="pat tl" style="opacity:.35"></div>
-    <div class="rec-head"><h2><svg><use href="#mic"/></svg>Enregistrement d’un paquet</h2><span class="pk" id="pk">Paquet n° 4</span></div>
+    <div class="rec-head"><h2><svg><use href="#mic"/></svg>Enregistrement d’un paquet</h2><span class="pk" id="pk">Chargement…</span></div>
     <div class="prog"><span id="cnt">Phrase 01 / 10</span><div class="bar2"><div id="bar" style="width:0"></div></div><span id="pct">0 %</span></div>
     <div class="rec-main">
       <div>
@@ -308,7 +308,7 @@ nav button{white-space:nowrap;padding:10px 12px;font-size:.92rem}
     </div>
     <aside class="next">
       <h3><svg><use href="#layers"/></svg>Paquet suivant proposé</h3>
-      <div class="bd"><h4 id="np">Paquet n° 7</h4><small>(le moins enregistré)</small>
+      <div class="bd"><h4 id="np">À déterminer</h4><small>(le moins enregistré)</small>
         <ul><li><svg><use href="#layers"/></svg>10 phrases</li><li><svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="8"/><path d="M12 14V9M9 2h6"/></svg>5 secondes maximum</li></ul></div>
     </aside>
     <div class="tbtns">
@@ -462,38 +462,46 @@ function show(v){document.querySelectorAll('.view').forEach(s=>s.classList.toggl
 let packetsCache = null;
 
 async function getRecommended(exclude = []) {
-
-  // Charger les phrases depuis GitHub Pages
+  // Les textes des phrases restent dans packets.json.
   if (!packetsCache) {
-    const response = await fetch('./packets.json');
-
-    if (!response.ok) {
-      throw new Error('Impossible de charger packets.json');
+    const response = await fetch('./packets.json', {cache:'no-store'});
+    if (!response.ok) throw Error('Impossible de charger packets.json');
+    const json = await response.json();
+    packetsCache = Array.isArray(json) ? json : json.packets;
+    if (!Array.isArray(packetsCache) || !packetsCache.length) {
+      throw Error('Aucun paquet disponible dans packets.json');
     }
-
-    packetsCache = await response.json();
   }
 
-  // Exclure les paquets déjà proposés
-  let disponibles = packetsCache.filter(
-    p => !exclude.includes(p.id)
+  // Statistiques publiques agrégées, sans exposer les voix ou les participants.
+  const response = await fetch(
+    SUPABASE_URL + '/rest/v1/rpc/public_packet_counts',
+    {
+      method:'POST',
+      headers:{
+        'apikey':SUPABASE_PUBLIC_KEY,
+        'Content-Type':'application/json'
+      },
+      body:'{}',
+      cache:'no-store'
+    }
   );
-
-  // Si tous les paquets sont exclus, recommencer
-  if (disponibles.length === 0) {
-    disponibles = packetsCache;
+  if (!response.ok) {
+    throw Error('Statistiques des paquets indisponibles (HTTP ' + response.status + '). Vérifiez la fonction public_packet_counts dans Supabase.');
   }
+  const stats = await response.json();
+  if (!Array.isArray(stats)) throw Error('Réponse de statistiques invalide');
+  const counts = new Map(stats.map(x => [Number(x.packet_id), Number(x.contributions)]));
+  if (counts.size === 0) throw Error('Aucune statistique de paquet disponible');
 
-  if (disponibles.length === 0) {
-    throw new Error('Aucun paquet disponible');
-  }
-
-  // Pour les tests : proposer les paquets dans l'ordre
-  const choisi = disponibles[0];
-
-  return {
-    packet: choisi
-  };
+  let disponibles = packetsCache.filter(p => !exclude.map(Number).includes(Number(p.id)));
+  if (!disponibles.length) disponibles = [...packetsCache];
+  disponibles.sort((a,b) => {
+    const ca = counts.get(Number(a.id)) ?? 0;
+    const cb = counts.get(Number(b.id)) ?? 0;
+    return ca - cb || Number(a.id) - Number(b.id);
+  });
+  return {packet:disponibles[0]};
 }
 async function loadSentenceIds(packetId){
  if(SUPABASE_PUBLIC_KEY.startsWith('REMPLACER_'))throw Error('Configurer SUPABASE_PUBLIC_KEY dans index.html');
