@@ -393,7 +393,16 @@ nav button{white-space:nowrap;padding:10px 12px;font-size:.92rem}
 
 <script>
 const MAX_SEC=5, API='/api';
+// Clé publiable Supabase (jamais une clé secrète / service_role).
+// À remplacer par la clé publishable ou anon de ton projet Supabase.
+const SUPABASE_URL='https://dpxrkzvhpeflaeiqfmyt.supabase.co';
+const SUPABASE_PUBLIC_KEY='sb_publishable_Ld4ExKdQtWUvZiOQirvgug_atNIpcQh';
+const UPLOAD_FUNCTION=SUPABASE_URL+'/functions/v1/upload-contribution';
+let sentenceIdsByPosition=new Map(), uploadedPositions=new Set();
+
 const $=id=>document.getElementById(id);
+const participantId=crypto.randomUUID(); // Nouveau visiteur à chaque chargement de page
+let packetSessionId=null; // Nouvelle session à chaque paquet sélectionné
 let contributionId=crypto.randomUUID(), packet=null, sentences=[], nextSuggestion=null, excluded=[], idx=0, clips=[], cur=null, rec=null, stream=null, ctx=null, an=null, raf=null, timer=null, t0=0, playAudio=null, consent=false, busy=false;
 const REF_AUDIO=(p,n)=>`audio/ref/${String(p).padStart(2,'0')}/${String(n).padStart(2,'0')}.wav`;
 const DONE_KEY='awar_paquets_faits';
@@ -409,7 +418,7 @@ function setRecordingLock(locked){
 }
 // Capture PCM brute (sans WebM/Opus), WAV PCM16 à la fréquence native compatible serveur.
 // QUALITÉ AUDIO : capture PCM brute (aucun codec), WAV 16 bits mono.
-const WAV_RATE=0;       // 0 : préserver le PCM à la fréquence native du microphone (44,1 ou 48 kHz en général).
+const WAV_RATE=16000;   // Sortie WAV PCM16 mono à 16 kHz exigée par Supabase (rééchantillonnage sinc).
 const TARGET_PEAK=0;   // Ne jamais amplifier automatiquement : cela amplifierait également le bruit de fond.
 const MAX_GAIN_DB=24;   // amplification maximale autorisée
 let pcmBlocks=[],captureNode=null,captureSource=null,captureGain=null,captureActive=false,captureStarting=false;
@@ -486,8 +495,21 @@ async function getRecommended(exclude = []) {
     packet: choisi
   };
 }
+async function loadSentenceIds(packetId){
+ if(SUPABASE_PUBLIC_KEY.startsWith('REMPLACER_'))throw Error('Configurer SUPABASE_PUBLIC_KEY dans index.html');
+ const url=SUPABASE_URL+'/rest/v1/sentences?select=id,position&packet_id=eq.'+encodeURIComponent(packetId)+'&order=position.asc';
+ const response=await fetch(url,{headers:{'apikey':SUPABASE_PUBLIC_KEY}});
+ if(!response.ok)throw Error('Impossible de charger les identifiants des phrases Supabase ('+response.status+')');
+ const rows=await response.json();
+ const result=new Map(rows.map(r=>[Number(r.position),Number(r.id)]));
+ if(result.size!==10)throw Error('Ce paquet ne contient pas 10 phrases dans Supabase');
+ return result;
+}
 async function selectPacket(exclude=[]){
- const data=await getRecommended(exclude);packet=data.packet.id;sentences=data.packet.sentences;idx=0;clips=[];cur=null;contributionId=crypto.randomUUID();excluded=exclude;render();return data;
+ const data=await getRecommended(exclude);
+ const ids=await loadSentenceIds(data.packet.id);
+ packet=data.packet.id;sentences=data.packet.sentences;sentenceIdsByPosition=ids;
+ idx=0;clips=[];uploadedPositions=new Set();cur=null;contributionId=crypto.randomUUID();packetSessionId=crypto.randomUUID();excluded=exclude;render();return data;
 }
 async function openParticipant(){
  try{await selectPacket([]);show('part')}catch(e){setSt(e.message,true);show('part')}
@@ -596,20 +618,36 @@ $('mb').onclick=startRecording;
 $('b-play').onclick=()=>cur&&new Audio(cur.url).play();
 $('b-redo').onclick=()=>{if(cur?.url)URL.revokeObjectURL(cur.url);render()};
 async function upload(){
- const fd=new FormData();fd.append('packet',String(packet));fd.append('contribution_id',contributionId);
- fd.append('meta',JSON.stringify(clips.map(c=>({id:c.id,text:c.text,duration:c.duration,sampleRate:c.sampleRate,sourceSampleRate:c.sourceSampleRate,peak:c.peak,rmsDb:c.rmsDb,clipping:c.clipping,gainDb:c.gainDb}))));
- clips.forEach(c=>fd.append('audio',c.blob,`p${packet}_${String(c.id).padStart(2,'0')}.wav`));
- return request('/contributions',{method:'POST',body:fd});
+ // Un fichier WAV par phrase. En cas d'échec partiel, reprendre uniquement
+ // les phrases non envoyées pour éviter de dupliquer les contributions.
+ for(const clip of clips){
+  if(uploadedPositions.has(clip.id))continue;
+  const sentenceId=sentenceIdsByPosition.get(clip.id);
+  if(!sentenceId)throw Error('Identifiant Supabase introuvable pour la phrase '+clip.id);
+  const fd=new FormData();
+  fd.append('sentence_id',String(sentenceId));
+  fd.append('participant_id',participantId);
+  fd.append('packet_session_id',packetSessionId);
+  fd.append('audio',clip.blob,`p${packet}_${String(clip.id).padStart(2,'0')}.wav`);
+  setSt(`Envoi vers Supabase : ${uploadedPositions.size+1} / ${clips.length}…`);
+  let response;
+  try{response=await fetch(UPLOAD_FUNCTION,{method:'POST',body:fd})}
+  catch{throw Error('Connexion à Supabase impossible. Vérifiez votre connexion.');}
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok||!result.success)throw Error(`Phrase ${clip.id} : ${result.error||'HTTP '+response.status}`);
+  uploadedPositions.add(clip.id);
+ }
+ return {success:true};
 }
 async function finishPacket(){
- busy=true;$('mb').disabled=true;$('b-ok').disabled=true;setSt('Sauvegarde des 10 audios sur le serveur…');
+ busy=true;$('mb').disabled=true;$('b-ok').disabled=true;setSt('Sauvegarde des 10 audios sur Supabase…');
  try{
    await upload();markDone(packet);
    let next=null;try{next=await getRecommended([packet])}catch(e){console.warn(e)}
    nextSuggestion=next?.packet||null;
    $('np').textContent=nextSuggestion?`Paquet n° ${nextSuggestion.id}`:'À déterminer';
    render();show('merci');
- }catch(e){setSt(`Échec de sauvegarde : ${e.message}. Vos 10 audios sont conservés ici. Cliquez sur Valider pour réessayer.`,true);$('b-ok').disabled=false;}
+ }catch(e){setSt(`Échec de sauvegarde : ${e.message}. ${uploadedPositions.size} / ${clips.length} audio(s) envoyés. Cliquez sur Valider pour réessayer les autres.`,true);$('b-ok').disabled=false;}
  finally{busy=false}
 }
 $('b-ok').onclick=async()=>{
